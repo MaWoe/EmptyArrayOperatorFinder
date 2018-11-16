@@ -1,5 +1,5 @@
 {
-    "name": "mawoe/empty-array-operator-finder",
+    "name": "mawoe/empty-index-operator-finder",
     "description": "Scans PHP code for occurrence of empty array operator ('[]')",
     "type": "library",
     "require-dev": {
