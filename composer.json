@@ -1,0 +1,25 @@
+{
+    "name": "mawoe/empty-array-operator-finder",
+    "description": "Scans PHP code for occurrence of empty array operator ('[]')",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^7.4"
+    },
+    "authors": [
+        {
+            "name": "Markus Wößner",
+            "email": "github2@vocabula.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MaWoe\\EmptyArrayOperatorFinder\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": { "MaWoe\\EmptyArrayOperatorFinder\\Tests\\": "tests/" }
+    },
+    "require": {
+        "php": ">= 5"
+    }
+}
