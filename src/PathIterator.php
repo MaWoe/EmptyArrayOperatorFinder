@@ -1,14 +1,34 @@
 <?php
 
+namespace MaWoe\EmptyArrayOperatorFinder;
+
+use CallbackFilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SplFileInfo;
+
 class PathIterator
 {
+    /**
+     * @var Finder
+     */
+    private $finder;
+
+    /**
+     * @param Finder $finder
+     */
+    public function __construct(Finder $finder)
+    {
+        $this->finder = $finder;
+    }
+
     public function iteratePaths(array $paths)
     {
         foreach ($paths as $path) {
             /** @var SplFileInfo $fileInfo */
             foreach ($this->createIteratorForPhpFiles($path) as $fileInfo) {
                 $filePath = $fileInfo->getPathname();
-                $matches = (new EmptyArrayOperatorFinder($filePath))->getMatches();
+                $matches = $this->finder->getMatches(file_get_contents($filePath));
                 foreach ($matches as $line) {
                     echo $filePath, ':', $line, PHP_EOL;
                 }
@@ -16,20 +36,18 @@ class PathIterator
         }
     }
 
-    /**
-     * @param $path
-     *
-     * @return CallbackFilterIterator
-     */
-    private function createIteratorForPhpFiles($path)
+    private function createIteratorForPhpFiles(string $path): CallbackFilterIterator
     {
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
             RecursiveIteratorIterator::SELF_FIRST
         );
 
-        return new CallbackFilterIterator($iterator, function(SplFileInfo $currentItem) {
-            return preg_match('/\.(php|yml|tpl)$/', $currentItem->getFilename()) > 0;
-        });
+        return new CallbackFilterIterator(
+            $iterator,
+            function (SplFileInfo $currentItem) {
+                return preg_match('/\.(php|yml|tpl)$/', $currentItem->getFilename()) > 0;
+            }
+        );
     }
 }

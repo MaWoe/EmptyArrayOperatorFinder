@@ -1,10 +1,11 @@
+#!/usr/bin/env php
 <?php
 
-define('SF_ROOT_DIR', realpath(__DIR__ . '/../private'));
-require_once __DIR__ . '/EmptyArrayOperatorFinder.php';
-require_once __DIR__ . '/Token.php';
-require_once __DIR__ . '/PathIterator.php';
+use MaWoe\EmptyArrayOperatorFinder\Finder;
+use MaWoe\EmptyArrayOperatorFinder\PathIterator;
 
-$pathIterator = new PathIterator();
-$pathIterator->iteratePaths([SF_ROOT_DIR]);
-//$pathIterator->iteratePaths([__DIR__]);
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$finder = new Finder();
+$pathIterator = new PathIterator($finder);
+$pathIterator->iteratePaths([$_SERVER['argv'][1]]);

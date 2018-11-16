@@ -2,8 +2,6 @@
 
 namespace MaWoe\EmptyArrayOperatorFinder;
 
-use RuntimeException;
-
 class Finder
 {
     const STATE_NOWHERE = 0;
@@ -31,12 +29,10 @@ class Finder
             if ($this->openingBracketExpected()) {
                 if ($token->matchesCode('[')) {
                     $this->expectClosingBracket();
-                    continue;
                 }
             } elseif ($this->closingBracketExpected()) {
                 if ($token->matchesCode(']')) {
                     $this->expectAssignment();
-                    continue;
                 } else {
                     $this->resetMatchState();
                 }
@@ -46,7 +42,6 @@ class Finder
                     $this->resetMatchState();
                 } else {
                     $this->resetMatchState();
-                    continue;
                 }
             }
         }
@@ -54,25 +49,16 @@ class Finder
         return $matches;
     }
 
-    /**
-     * @return bool
-     */
     private function openingBracketExpected(): bool
     {
         return $this->matchState === self::STATE_NOWHERE;
     }
 
-    /**
-     * @return bool
-     */
     private function closingBracketExpected(): bool
     {
         return $this->matchState === self::STATE_EXPECTING_CLOSING_BRACKET;
     }
 
-    /**
-     * @return bool
-     */
     private function assignmentExpected(): bool
     {
         return $this->matchState === self::STATE_EXPECTING_ASSIGNMENT;
