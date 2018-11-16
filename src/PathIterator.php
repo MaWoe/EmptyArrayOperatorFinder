@@ -5,6 +5,7 @@ namespace MaWoe\EmptyArrayOperatorFinder;
 use CallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RuntimeException;
 use SplFileInfo;
 
 class PathIterator
@@ -25,6 +26,9 @@ class PathIterator
     public function iteratePaths(array $paths)
     {
         foreach ($paths as $path) {
+            if (!is_dir($path)) {
+                throw new RuntimeException('Given path "' . $path . '" is not a directory');
+            }
             /** @var SplFileInfo $fileInfo */
             foreach ($this->createIteratorForPhpFiles($path) as $fileInfo) {
                 $filePath = $fileInfo->getPathname();

@@ -4,8 +4,27 @@
 use MaWoe\EmptyArrayOperatorFinder\Finder;
 use MaWoe\EmptyArrayOperatorFinder\PathIterator;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+(function () {
+    $currentDir = __DIR__;
+    while (true) {
+        $autoloaderFile = $currentDir . '/vendor/autoload.php';
+        if (file_exists($autoloaderFile)) {
+            require_once $autoloaderFile;
+            return;
+        }
+        $currentDir = realpath($currentDir . '/..');
+        if (!is_dir($currentDir)) {
+            throw new \RuntimeException('Could not find a autoload.php file');
+        }
+    }
+})();
+
+if (!isset($_SERVER['argv'][1])) {
+    echo 'Usage: ', $_SERVER['argv'][0], ' <path to scan>', PHP_EOL;
+    exit(1);
+}
+$pathToScan = $_SERVER['argv'][1];
 
 $finder = new Finder();
 $pathIterator = new PathIterator($finder);
-$pathIterator->iteratePaths([$_SERVER['argv'][1]]);
+$pathIterator->iteratePaths([$pathToScan]);
