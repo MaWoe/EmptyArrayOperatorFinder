@@ -14,12 +14,13 @@ class FinderTest extends TestCase
 
         $this->assertSame(
             [
-                4,
+                7,
                 11,
-                16,
-                21,
-                22,
                 23,
+                28,
+                33,
+                34,
+                35,
             ],
             $matches
         );

@@ -16,7 +16,8 @@ class Finder
 
         $currentLine = null;
         $matches = [];
-        foreach (token_get_all($fileContents) as $tokenInfo) {
+        $tokenDescriptions = token_get_all($fileContents);
+        foreach ($tokenDescriptions as $tokenInfo) {
             $token = Token::createFromTokenGetAllToken($tokenInfo);
             if ($token->hasLine()) {
                 $currentLine = $token->line;
