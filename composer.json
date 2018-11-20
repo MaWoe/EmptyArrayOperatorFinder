@@ -20,9 +20,13 @@
         "psr-4": { "MaWoe\\EmptyArrayOperatorFinder\\Tests\\": "tests/" }
     },
     "require": {
-        "php": ">= 5"
+        "php": ">= 5",
+        "nikic/PHP-Parser": "^4.1"
     },
     "bin": [
         "bin/findIndexOperator"
-    ]
+    ],
+    "scripts": {
+        "test": "phpunit tests"
+    }
 }
