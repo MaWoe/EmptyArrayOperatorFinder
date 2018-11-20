@@ -3,6 +3,7 @@
 namespace MaWoe\EmptyArrayOperatorFinder;
 
 use CallbackFilterIterator;
+use PhpParser\Error;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
@@ -32,9 +33,13 @@ class PathIterator
             /** @var SplFileInfo $fileInfo */
             foreach ($this->createIteratorForPhpFiles($path) as $fileInfo) {
                 $filePath = $fileInfo->getPathname();
-                $matches = $this->finder->getMatches(file_get_contents($filePath));
-                foreach ($matches as $line) {
-                    echo $filePath, ':', $line, PHP_EOL;
+                try {
+                    $matches = $this->finder->getMatches(file_get_contents($filePath));
+                    foreach ($matches as $line) {
+                        echo $filePath, ':', $line, PHP_EOL;
+                    }
+                } catch (Error $e) {
+                    echo $filePath, ' - ERROR: ', $e->getMessage(), PHP_EOL;
                 }
             }
         }

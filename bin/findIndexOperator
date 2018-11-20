@@ -27,4 +27,8 @@ $pathToScan = $_SERVER['argv'][1];
 
 $finder = new Finder();
 $pathIterator = new PathIterator($finder);
+
+$start = microtime(true);
 $pathIterator->iteratePaths([$pathToScan]);
+$stop = microtime(true);
+echo 'Time taken: ', round($stop - $start, 2), PHP_EOL;
